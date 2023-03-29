@@ -1,0 +1,214 @@
+{
+	"info": {
+		"_postman_id": "8aafce21-39a2-4cc4-ab10-26cfc0c52f17",
+		"name": "Davivienda",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12527115"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"mobile_phone\":\"prueba\",\r\n    \"password\":\"prueba\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{path}}.us-west-2.amazonaws.com/dev/api/v1/users/login",
+					"host": [
+						"{{path}}",
+						"us-west-2",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"api",
+						"v1",
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetUsers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://n4qz49vk0a.execute-api.us-west-2.amazonaws.com/dev/api/v1/users",
+					"protocol": "https",
+					"host": [
+						"n4qz49vk0a",
+						"execute-api",
+						"us-west-2",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"api",
+						"v1",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetUser",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{path}}.us-west-2.amazonaws.com/dev/api/v1/users/u",
+					"host": [
+						"{{path}}",
+						"us-west-2",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"api",
+						"v1",
+						"users",
+						"u"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"first_name\": \"string\",\r\n\"last_name\": \"string\",\r\n\"date_birth\": \"2021-09-17\",\r\n\"mobile_phone\": \"string\",\r\n\"email\": \"user@example.com\",\r\n\"password\": \"string\",\r\n\"address\": \"stringst\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{path}}.us-west-2.amazonaws.com/dev/api/v1/users",
+					"host": [
+						"{{path}}",
+						"us-west-2",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"api",
+						"v1",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"first_name\": \"string\",\r\n\"last_name\": \"string\",\r\n\"date_birth\": \"2021-09-17\",\r\n\"mobile_phone\": \"string\",\r\n\"email\": \"user@example.com\",\r\n\"password\": \"string\",\r\n\"address\": \"stringst\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{path}}.us-west-2.amazonaws.com/dev/api/v1/users/2",
+					"host": [
+						"{{path}}",
+						"us-west-2",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"api",
+						"v1",
+						"users",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{path}}.us-west-2.amazonaws.com/dev/api/v1/users/6",
+					"host": [
+						"{{path}}",
+						"us-west-2",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"api",
+						"v1",
+						"users",
+						"6"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

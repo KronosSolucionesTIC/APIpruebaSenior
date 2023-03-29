@@ -1,0 +1,64 @@
+service: prueba-senior
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+  region: us-west-2
+  profile: alejandro-marin
+  vpc: 
+    securityGroupIds:
+      - sg-0a49c845de6f88875
+    subnetIds:
+      - subnet-0d606e2ffb292d82b
+      - subnet-078a3886feeb8e489
+      - subnet-000465d344a23ca5a
+      - subnet-072b15b57c7db8d7c
+  
+  apiGateway:
+    apiKeys:
+        - ${file(./config.${self:provider.stage}.json):API_KEY}
+
+functions:
+  usersLogin:
+    handler: Crud/users.login
+    events:
+      - http:
+          path: api/v1/users/login
+          method: post
+  usersGet:
+    handler: Crud/users.get
+    events:
+      - http:
+          path: api/v1/users
+          method: get
+  usersGetUser:
+    handler: Crud/users.getUser
+    events:
+      - http:
+          path: api/v1/users/{id_user}
+          method: get
+          private: true
+  usersCreate:
+    handler: Crud/users.create
+    events:
+      - http:
+          path: api/v1/users
+          method: post
+          private: true
+  usersUpdate:
+    handler: Crud/users.update
+    events:
+      - http:
+          path: api/v1/users/{id_user}
+          method: put
+          private: true
+  usersDelete:
+    handler: Crud/users.delete
+    events:
+      - http:
+          path: api/v1/users/{id_user}
+          method: delete
+          private: true
