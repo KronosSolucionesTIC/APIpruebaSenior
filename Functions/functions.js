@@ -6,21 +6,21 @@
  * @returns {boolean} `true` si el valor proporcionado es del tipo especificado, `false` en caso contrario.
  */
 module.exports.validateType = function (type, value) {
-    switch (type) {
-        case 'int':
-            if(!value || isNaN(parseInt(value))){
-                return false;
-            }
-            return true;
-        case 'varchar':
-            if(typeof value === "string"){
-                return true;
-            }
-            return false;
-        default:
-            return true;
-    }
-}
+  switch (type) {
+    case "int":
+      if (!value || isNaN(parseInt(value))) {
+        return false;
+      }
+      return true;
+    case "varchar":
+      if (typeof value === "string") {
+        return true;
+      }
+      return false;
+    default:
+      return true;
+  }
+};
 
 /**
  * Valida si un valor dado tiene una longitud menor o igual a la longitud especificada.
@@ -30,8 +30,8 @@ module.exports.validateType = function (type, value) {
  * @returns {boolean} - True si el valor es menor o igual a la longitud especificada, de lo contrario false.
  */
 module.exports.validateLength = function (length, value) {
-    if(value.length > length){
-        return false;
-    } 
-    return true;
-}
+  if (value.length > length) {
+    return false;
+  }
+  return true;
+};

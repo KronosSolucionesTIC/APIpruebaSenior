@@ -21,15 +21,11 @@
 					}
 				},
 				"url": {
-					"raw": "{{path}}.us-west-2.amazonaws.com/dev/api/v1/users/login",
+					"raw": "{{path}}/api/v1/users/login",
 					"host": [
-						"{{path}}",
-						"us-west-2",
-						"amazonaws",
-						"com"
+						"{{path}}"
 					],
 					"path": [
-						"dev",
 						"api",
 						"v1",
 						"users",
@@ -45,17 +41,11 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://n4qz49vk0a.execute-api.us-west-2.amazonaws.com/dev/api/v1/users",
-					"protocol": "https",
+					"raw": "{{path}}/api/v1/users",
 					"host": [
-						"n4qz49vk0a",
-						"execute-api",
-						"us-west-2",
-						"amazonaws",
-						"com"
+						"{{path}}"
 					],
 					"path": [
-						"dev",
 						"api",
 						"v1",
 						"users"
@@ -76,19 +66,15 @@
 					}
 				],
 				"url": {
-					"raw": "{{path}}.us-west-2.amazonaws.com/dev/api/v1/users/u",
+					"raw": "{{path}}/api/v1/users/1",
 					"host": [
-						"{{path}}",
-						"us-west-2",
-						"amazonaws",
-						"com"
+						"{{path}}"
 					],
 					"path": [
-						"dev",
 						"api",
 						"v1",
 						"users",
-						"u"
+						"1"
 					]
 				}
 			},
@@ -115,15 +101,11 @@
 					}
 				},
 				"url": {
-					"raw": "{{path}}.us-west-2.amazonaws.com/dev/api/v1/users",
+					"raw": "{{path}}/api/v1/users",
 					"host": [
-						"{{path}}",
-						"us-west-2",
-						"amazonaws",
-						"com"
+						"{{path}}"
 					],
 					"path": [
-						"dev",
 						"api",
 						"v1",
 						"users"
@@ -153,15 +135,11 @@
 					}
 				},
 				"url": {
-					"raw": "{{path}}.us-west-2.amazonaws.com/dev/api/v1/users/2",
+					"raw": "{{path}}/api/v1/users/2",
 					"host": [
-						"{{path}}",
-						"us-west-2",
-						"amazonaws",
-						"com"
+						"{{path}}"
 					],
 					"path": [
-						"dev",
 						"api",
 						"v1",
 						"users",
@@ -192,15 +170,11 @@
 					}
 				},
 				"url": {
-					"raw": "{{path}}.us-west-2.amazonaws.com/dev/api/v1/users/6",
+					"raw": "{{path}}/api/v1/users/6",
 					"host": [
-						"{{path}}",
-						"us-west-2",
-						"amazonaws",
-						"com"
+						"{{path}}"
 					],
 					"path": [
-						"dev",
 						"api",
 						"v1",
 						"users",
