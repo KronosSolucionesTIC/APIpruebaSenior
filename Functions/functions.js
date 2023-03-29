@@ -1,3 +1,7 @@
+/*
+Funcion para validar el tipo campo si es int o varchar
+
+*/
 module.exports.validateType = function (type, value) {
     switch (type) {
         case 'int':
