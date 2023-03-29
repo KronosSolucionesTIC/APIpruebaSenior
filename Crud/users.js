@@ -1,6 +1,7 @@
 const connection = require('../connection');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
+const functions = require('../Functions/functions.js');
 
 module.exports.login = (event, context, callback) => {
     context.callbackWaitsForEmptyEventLoop = false;
@@ -11,12 +12,30 @@ module.exports.login = (event, context, callback) => {
         password : requestBody.password
     }
 
+    const mobilePhoneDecodificado = decodeURIComponent(data.mobile_phone);
+    const passwordDecodificado = decodeURIComponent(data.password);
+    const passworEncriptado = crypto.createHash('md5').update(passwordDecodificado).digest('hex');
+
     const token = jwt.sign(data, 'secreto');
 
     const sql = 'SELECT id, first_name, last_name, date_birth, email, mobile_phone, password, address FROM users WHERE mobile_phone = ? AND password = ?';
-    const mobilePhoneDecodificado = decodeURIComponent(data.mobile_phone);
-    const passwordDecodificado = decodeURIComponent(data.password);
-    connection.query(sql, [mobilePhoneDecodificado, passwordDecodificado], (error, row) => {
+    connection.query(sql, [mobilePhoneDecodificado, passworEncriptado], (error, row) => {
+        const validateMobilePhone = functions.validateType('varchar', requestBody.mobile_phone)
+        const validatePassword = functions.validateLength(120, requestBody.password)
+        if (!validateMobilePhone || !validatePassword) {
+            callback(null, {
+                statusCode: 400,
+                headers: {
+                    "Access-Control-Allow-Headers" : "Content-Type",
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Methods": "GET"
+                },
+                body: JSON.stringify({
+                    success: false,
+                    data: JSON.stringify('Invalid mobile or password')
+                })
+            })
+        }
         if (error) {
             callback({
                 statusCode: 500,
@@ -71,8 +90,8 @@ module.exports.getUser = (event, context, callback) => {
     context.callbackWaitsForEmptyEventLoop = false;
     const sql = 'SELECT id, first_name, last_name, date_birth, email, mobile_phone, password, address FROM users WHERE id = ?';
     connection.query(sql, [event.pathParameters.id_user], (error, row) => {
-        const id_user = event.pathParameters.id_user;
-        if (!id_user || isNaN(parseInt(id_user))) {
+        const validateId = functions.validateType('int', event.pathParameters.id_user)
+        if (!validateId) {
             callback(null, {
                 statusCode: 400,
                 headers: {
@@ -126,6 +145,25 @@ module.exports.create = (event, context, callback) => {
 
     const sql = 'INSERT INTO users (first_name, last_name, date_birth, mobile_phone, email, password, address) VALUES (?, ?, ?, ?, ?, ?, ?)';
     connection.query(sql, [data.first_name, data.last_name, data.date_birth, data.mobile_phone, data.email, passworEncriptado, data.address], (error, row) => {
+        const validateFirstName = functions.validateType('varchar', data.first_name)
+        const validateLastName = functions.validateType('varchar', data.last_name)
+        const validatePassword = functions.validateLength(120, requestBody.password)
+        const validateMobilePhone = functions.validateType('varchar', requestBody.mobile_phone)
+        const validateEmail = functions.validateType('varchar', requestBody.email)
+        if (!validateFirstName || !validateLastName || !validatePassword || !validateMobilePhone || !validateEmail) {
+            callback(null, {
+                statusCode: 400,
+                headers: {
+                    "Access-Control-Allow-Headers" : "Content-Type",
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Methods": "GET"
+                },
+                body: JSON.stringify({
+                    success: false,
+                    data: JSON.stringify('The parameters do not meet the required data type or length')
+                })
+            })
+        }
         if (error) {
             callback({
                 statusCode: 500,
@@ -166,6 +204,26 @@ module.exports.update = (event, context, callback) => {
 
     const sql = 'UPDATE users SET first_name = ?, last_name = ?, date_birth = ?, mobile_phone = ?, email = ?, password = ?, address = ? WHERE id = ?';
     connection.query(sql, [data.first_name, data.last_name, data.date_birth, data.mobile_phone, data.email, passworEncriptado, data.address, event.pathParameters.id_user], (error, row) => {
+        const validateId = functions.validateType('int', event.pathParameters.id_user)
+        const validateFirstName = functions.validateType('varchar', data.first_name)
+        const validateLastName = functions.validateType('varchar', data.last_name)
+        const validatePassword = functions.validateLength(120, requestBody.password)
+        const validateMobilePhone = functions.validateType('varchar', requestBody.mobile_phone)
+        const validateEmail = functions.validateType('varchar', requestBody.email)
+        if (!validateId || !validateFirstName || !validateLastName || !validatePassword || !validateMobilePhone || !validateEmail) {
+            callback(null, {
+                statusCode: 400,
+                headers: {
+                    "Access-Control-Allow-Headers" : "Content-Type",
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Methods": "GET"
+                },
+                body: JSON.stringify({
+                    success: false,
+                    data: JSON.stringify('The parameters do not meet the required data type or length')
+                })
+            })
+        }
         if (error) {
             callback({
                 statusCode: 500,
@@ -192,6 +250,21 @@ module.exports.delete = (event, context, callback) => {
     context.callbackWaitsForEmptyEventLoop = false;
     const sql = 'DELETE FROM users WHERE id = ?';
     connection.query(sql, [event.pathParameters.id_user], (error, row) => {
+        const validateId = functions.validateType('int', event.pathParameters.id_user)
+        if (!validateId) {
+            callback(null, {
+                statusCode: 400,
+                headers: {
+                    "Access-Control-Allow-Headers" : "Content-Type",
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Methods": "GET"
+                },
+                body: JSON.stringify({
+                    success: false,
+                    data: JSON.stringify('Invalid id_user')
+                })
+            })
+        }
         if (error) {
             callback({
                 statusCode: 500,
