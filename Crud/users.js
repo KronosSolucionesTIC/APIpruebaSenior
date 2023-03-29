@@ -12,14 +12,20 @@ module.exports.login = (event, context, callback) => {
         password : requestBody.password
     }
 
+    //Decodifica campos
     const mobilePhoneDecodificado = decodeURIComponent(data.mobile_phone);
-    const passwordDecodificado = decodeURIComponent(data.password);
+    const passwordDecodificado = decodeURIComponent(data.password); 
+
+    //Encripta con md5
     const passworEncriptado = crypto.createHash('md5').update(passwordDecodificado).digest('hex');
 
+    //Genera token jwt
     const token = jwt.sign(data, 'secreto');
 
     const sql = 'SELECT id, first_name, last_name, date_birth, email, mobile_phone, password, address FROM users WHERE mobile_phone = ? AND password = ?';
     connection.query(sql, [mobilePhoneDecodificado, passworEncriptado], (error, row) => {
+
+        //Validacion de campos tipo y longitud
         const validateMobilePhone = functions.validateType('varchar', requestBody.mobile_phone)
         const validatePassword = functions.validateLength(120, requestBody.password)
         if (!validateMobilePhone || !validatePassword) {
@@ -36,6 +42,7 @@ module.exports.login = (event, context, callback) => {
                 })
             })
         }
+
         if (error) {
             callback({
                 statusCode: 500,
@@ -62,6 +69,7 @@ module.exports.login = (event, context, callback) => {
 
 module.exports.get = (event, context, callback) => {
     context.callbackWaitsForEmptyEventLoop = false;
+
     const sql = 'SELECT id, first_name, last_name, date_birth, email, mobile_phone, password, address FROM users';
     connection.query(sql, (error, row) => {
         if (error) {
@@ -90,6 +98,8 @@ module.exports.getUser = (event, context, callback) => {
     context.callbackWaitsForEmptyEventLoop = false;
     const sql = 'SELECT id, first_name, last_name, date_birth, email, mobile_phone, password, address FROM users WHERE id = ?';
     connection.query(sql, [event.pathParameters.id_user], (error, row) => {
+
+        //Validacion de campo tipo
         const validateId = functions.validateType('int', event.pathParameters.id_user)
         if (!validateId) {
             callback(null, {
@@ -105,6 +115,7 @@ module.exports.getUser = (event, context, callback) => {
                 })
             })
         }
+
         if (error) {
             callback({
                 statusCode: 500,
@@ -141,10 +152,13 @@ module.exports.create = (event, context, callback) => {
         address: requestBody.address
     }
 
+    //Encripta con md5
     const passworEncriptado = crypto.createHash('md5').update(requestBody.password).digest('hex')
 
     const sql = 'INSERT INTO users (first_name, last_name, date_birth, mobile_phone, email, password, address) VALUES (?, ?, ?, ?, ?, ?, ?)';
     connection.query(sql, [data.first_name, data.last_name, data.date_birth, data.mobile_phone, data.email, passworEncriptado, data.address], (error, row) => {
+        
+        //Validacion de campos tipo y longitud
         const validateFirstName = functions.validateType('varchar', data.first_name)
         const validateLastName = functions.validateType('varchar', data.last_name)
         const validatePassword = functions.validateLength(120, requestBody.password)
@@ -164,6 +178,7 @@ module.exports.create = (event, context, callback) => {
                 })
             })
         }
+
         if (error) {
             callback({
                 statusCode: 500,
@@ -200,10 +215,13 @@ module.exports.update = (event, context, callback) => {
         address: requestBody.address
     }
 
+    //Encripta con md5
     const passworEncriptado = crypto.createHash('md5').update(requestBody.password).digest('hex')
 
     const sql = 'UPDATE users SET first_name = ?, last_name = ?, date_birth = ?, mobile_phone = ?, email = ?, password = ?, address = ? WHERE id = ?';
     connection.query(sql, [data.first_name, data.last_name, data.date_birth, data.mobile_phone, data.email, passworEncriptado, data.address, event.pathParameters.id_user], (error, row) => {
+        
+        //Validacion de campos tipo y longitud
         const validateId = functions.validateType('int', event.pathParameters.id_user)
         const validateFirstName = functions.validateType('varchar', data.first_name)
         const validateLastName = functions.validateType('varchar', data.last_name)
@@ -224,6 +242,7 @@ module.exports.update = (event, context, callback) => {
                 })
             })
         }
+
         if (error) {
             callback({
                 statusCode: 500,
@@ -250,6 +269,8 @@ module.exports.delete = (event, context, callback) => {
     context.callbackWaitsForEmptyEventLoop = false;
     const sql = 'DELETE FROM users WHERE id = ?';
     connection.query(sql, [event.pathParameters.id_user], (error, row) => {
+
+        //Validacion de campo tipo
         const validateId = functions.validateType('int', event.pathParameters.id_user)
         if (!validateId) {
             callback(null, {
@@ -265,6 +286,7 @@ module.exports.delete = (event, context, callback) => {
                 })
             })
         }
+        
         if (error) {
             callback({
                 statusCode: 500,
