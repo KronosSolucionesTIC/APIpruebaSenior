@@ -35,4 +35,3 @@ Prueba Técnica de Conocimientos Desarrollador Senior
 1. Se pueden crear funciones transversales para la validacion de los campos por ejemplo con libreria Joi
 2. Se pueden crear funciones transversales para los callback
 3. Se puede Dockerizar
-4. Cubrir todos los metodos de las unitarias
