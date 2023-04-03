@@ -2,6 +2,8 @@ const connection = require('../connection');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const functions = require('../Functions/functions.js');
+const { headersPost, headersGet, headersPut, headersDelete } = require('../Common/Constants.js');
+const LambdaResponse = require('../Common/LambdaResponse.js');
 
 module.exports.login = (event, context, callback) => {
     context.callbackWaitsForEmptyEventLoop = false;
@@ -29,41 +31,25 @@ module.exports.login = (event, context, callback) => {
         const validateMobilePhone = functions.validateType('varchar', requestBody.mobile_phone)
         const validatePassword = functions.validateLength(120, requestBody.password)
         if (!validateMobilePhone || !validatePassword) {
-            callback(null, {
-                statusCode: 400,
-                headers: {
-                    "Access-Control-Allow-Headers" : "Content-Type",
-                    "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Methods": "GET"
-                },
-                body: JSON.stringify({
-                    success: false,
-                    data: JSON.stringify('Invalid mobile or password')
-                })
-            })
+            const response = new LambdaResponse(400, { 
+                success: true, 
+                data: 'Invalid mobile or password' 
+            }, headersPost);
+            callback(null, response);
         }
 
         if (error) {
-            callback({
-                statusCode: 500,
-                body: JSON.stringify(error)
-            })
-        } else {
-            callback(null, {
-                statusCode: 200,
-                headers: {
-                    "Access-Control-Allow-Headers" : "Content-Type",
-                    "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Methods": "POST"
-                },
-                body: JSON.stringify({
-                    success: true,
-                    data: row,
-                    access_token : token,
-                    token_type: "bearer"
-                })
-            })
-        }
+            const response = new LambdaResponse(500, error);
+            callback(response);
+          } else {
+            const response = new LambdaResponse(200, { 
+                success: true, 
+                data: row,
+                access_token : token,
+                token_type: "bearer" 
+            }, headersPost);
+            callback(null, response);
+          }
     });
 };
 
@@ -73,24 +59,12 @@ module.exports.get = (event, context, callback) => {
     const sql = 'SELECT id, first_name, last_name, date_birth, email, mobile_phone, password, address FROM users';
     connection.query(sql, (error, row) => {
         if (error) {
-            callback({
-                statusCode: 500,
-                body: JSON.stringify(error)
-            })
-        } else {
-            callback(null, {
-                statusCode: 200,
-                headers: {
-                    "Access-Control-Allow-Headers" : "Content-Type",
-                    "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Methods": "GET"
-                },
-                body: JSON.stringify({
-                    success: true,
-                    data: row
-                })
-            })
-        }
+            const response = new LambdaResponse(500, error);
+            callback(response);
+          } else {
+            const response = new LambdaResponse(200, { success: true, data: row }, headersGet);
+            callback(null, response);
+          }
     });
 }
 
@@ -102,39 +76,20 @@ module.exports.getUser = (event, context, callback) => {
         //Validacion de campo tipo
         const validateId = functions.validateType('int', event.pathParameters.id_user)
         if (!validateId) {
-            callback(null, {
-                statusCode: 400,
-                headers: {
-                    "Access-Control-Allow-Headers" : "Content-Type",
-                    "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Methods": "GET"
-                },
-                body: JSON.stringify({
-                    success: false,
-                    data: JSON.stringify('Invalid id_user')
-                })
-            })
+            const response = new LambdaResponse(400, { 
+                success: true, 
+                data: 'Invalid id_user' 
+            }, headersGet);
+            callback(null, response);
         }
 
         if (error) {
-            callback({
-                statusCode: 500,
-                body: JSON.stringify(error)
-            })
-        } else {
-            callback(null, {
-                statusCode: 200,
-                headers: {
-                    "Access-Control-Allow-Headers" : "Content-Type",
-                    "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Methods": "GET"
-                },
-                body: JSON.stringify({
-                    success: true,
-                    data: row
-                })
-            })
-        }
+            const response = new LambdaResponse(500, error);
+            callback(response);
+          } else {
+            const response = new LambdaResponse(200, { success: true, data: row }, headersGet);
+            callback(null, response);
+          }
     });
 }
 
@@ -165,39 +120,20 @@ module.exports.create = (event, context, callback) => {
         const validateMobilePhone = functions.validateType('varchar', requestBody.mobile_phone)
         const validateEmail = functions.validateType('varchar', requestBody.email)
         if (!validateFirstName || !validateLastName || !validatePassword || !validateMobilePhone || !validateEmail) {
-            callback(null, {
-                statusCode: 400,
-                headers: {
-                    "Access-Control-Allow-Headers" : "Content-Type",
-                    "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Methods": "GET"
-                },
-                body: JSON.stringify({
-                    success: false,
-                    data: JSON.stringify('The parameters do not meet the required data type or length')
-                })
-            })
+            const response = new LambdaResponse(400, { 
+                success: true, 
+                data: 'The parameters do not meet the required data type or length' 
+            }, headersPost);
+            callback(null, response);
         }
 
         if (error) {
-            callback({
-                statusCode: 500,
-                body: JSON.stringify(error)
-            })
-        } else {
-            callback(null, {
-                statusCode: 200,
-                headers: {
-                    "Access-Control-Allow-Headers" : "Content-Type",
-                    "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Methods": "POST"
-                },
-                body: JSON.stringify({
-                    success: true,
-                    data: data
-                })
-            })
-        }
+            const response = new LambdaResponse(500, error);
+            callback(response);
+          } else {
+            const response = new LambdaResponse(200, { success: true, data: data }, headersPost);
+            callback(null, response);
+          }
     });
 };
 
@@ -229,39 +165,20 @@ module.exports.update = (event, context, callback) => {
         const validateMobilePhone = functions.validateType('varchar', requestBody.mobile_phone)
         const validateEmail = functions.validateType('varchar', requestBody.email)
         if (!validateId || !validateFirstName || !validateLastName || !validatePassword || !validateMobilePhone || !validateEmail) {
-            callback(null, {
-                statusCode: 400,
-                headers: {
-                    "Access-Control-Allow-Headers" : "Content-Type",
-                    "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Methods": "GET"
-                },
-                body: JSON.stringify({
-                    success: false,
-                    data: JSON.stringify('The parameters do not meet the required data type or length')
-                })
-            })
+            const response = new LambdaResponse(400, { 
+                success: true, 
+                data: 'The parameters do not meet the required data type or length' 
+            }, headersPut);
+            callback(null, response);
         }
 
         if (error) {
-            callback({
-                statusCode: 500,
-                body: JSON.stringify(error)
-            })
-        } else {
-            callback(null, {
-                statusCode: 200,
-                headers: {
-                    "Access-Control-Allow-Headers" : "Content-Type",
-                    "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Methods": "PUT"
-                },
-                body: JSON.stringify({
-                    success: true,
-                    data: data
-                })
-            })
-        }
+            const response = new LambdaResponse(500, error);
+            callback(response);
+          } else {
+            const response = new LambdaResponse(200, { success: true, data: data }, headersPut);
+            callback(null, response);
+          }
     });
 };
 
@@ -273,38 +190,19 @@ module.exports.delete = (event, context, callback) => {
         //Validacion de campo tipo
         const validateId = functions.validateType('int', event.pathParameters.id_user)
         if (!validateId) {
-            callback(null, {
-                statusCode: 400,
-                headers: {
-                    "Access-Control-Allow-Headers" : "Content-Type",
-                    "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Methods": "GET"
-                },
-                body: JSON.stringify({
-                    success: false,
-                    data: JSON.stringify('Invalid id_user')
-                })
-            })
+            const response = new LambdaResponse(400, { 
+                success: true, 
+                data: 'Invalid id_user' 
+            }, headersDelete);
+            callback(null, response);
         }
         
         if (error) {
-            callback({
-                statusCode: 500,
-                body: JSON.stringify(error)
-            })
-        } else {
-            callback(null, {
-                statusCode: 200,
-                headers: {
-                    "Access-Control-Allow-Headers" : "Content-Type",
-                    "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Methods": "DELETE"
-                },
-                body: JSON.stringify({
-                    success: true,
-                    data: row
-                })
-            })
-        }
+            const response = new LambdaResponse(500, error);
+            callback(response);
+          } else {
+            const response = new LambdaResponse(200, { success: true, data: row }, headersDelete);
+            callback(null, response);
+          }
     });
 };
