@@ -17,8 +17,7 @@ class UsersQueryHandler {
   }
 
   handleLogin() {
-    const payload = { mobile_phone: "prueba", password: "prueba" };
-    "secreto"
+    const payload = { mobile_phone: this.params[0], password: this.params[1] };
     //Genera token jwt
     const token = jwt.sign(payload, 'secreto');
 
