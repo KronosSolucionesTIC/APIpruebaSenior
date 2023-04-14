@@ -30,8 +30,5 @@ module.exports.validateType = function (type, value) {
  * @returns {boolean} - True si el valor es menor o igual a la longitud especificada, de lo contrario false.
  */
 module.exports.validateLength = function (length, value) {
-  if (value.length > length) {
-    return false;
-  }
-  return true;
+  return value.length <= length;
 };

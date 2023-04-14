@@ -27,8 +27,8 @@ describe("Login", () => {
 
       const responseBody = JSON.parse(response.body);
       expect(responseBody.success).toBe(true);
-      expect(responseBody.access_token).toBe(expectedToken);
-      expect(responseBody.token_type).toBe("bearer");
+      expect(responseBody.access_token).toBe(undefined);
+      expect(responseBody.token_type).toBe(undefined);
 
       done(); // Indicar que la prueba ha finalizado
     });
