@@ -8,6 +8,12 @@ provider:
   stage: dev
   region: us-west-2
   profile: alejandro-marin
+  environment:
+    DB_HOST: 'senior.c4iollbmcv86.us-west-2.rds.amazonaws.com'
+    DB_USER: 'admin'
+    DB_PASSWORD: 'Colombia2023'
+    DB_PORT: 3306
+    DB_DATABASE: senior
   vpc: 
     securityGroupIds:
       - sg-0a49c845de6f88875

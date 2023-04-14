@@ -1,11 +1,11 @@
 const mysql = require('mysql');
 
 const configDB = {
-  host: 'senior.c4iollbmcv86.us-west-2.rds.amazonaws.com',
-  user: 'admin',
-  password: 'Colombia2023',
-  port: '3306',
-  database: 'senior',
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  port: process.env.DB_PORT,
+  database: process.env.DB_DATABASE,
   debug: true
 };
 
