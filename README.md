@@ -27,11 +27,10 @@ Prueba Técnica de Conocimientos Desarrollador Senior
 3. Ejecutar en la terminal -> npm install
 4. En el archivo serverless.yml se encuentran las opciones de despliegue (profile, stage, functions)
 5. Si se desea crear la BD en la carpeta scripts archivo BD.sql se encuentra el script
-6. Si cambian los datos de conexion al RDS en la carpeta connection archivo connection.js se configuran
+6. Si cambian los datos de conexion al RDS en el archivo serverless.yml apartado enviroment, se modifican
 5. Ejecutar en la terminal -> sls deploy o serverless deploy
 
 ## Oportunidades de mejora
 
 1. Se pueden crear funciones transversales para la validacion de los campos por ejemplo con libreria Joi
-2. Se pueden crear funciones transversales para los callback
-3. Se puede Dockerizar
+2. Se puede Dockerizar
