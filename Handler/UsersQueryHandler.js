@@ -5,8 +5,8 @@ const UsersGetDTO = require('../Dto/UsersGetDTO.js');
 const UsersCreateDTO = require('../Dto/UsersCreateDTO.js');
 const UsersUpdateDTO = require('../Dto/UsersUpdateDTO.js');
 const UsersDeleteDTO = require('../Dto/UsersDeleteDTO.js');
-const crypto = require('crypto');
-const jwt = require('jsonwebtoken');
+const JwtTokenGenerator = require('../Common/JwtTokenGenerator.js');
+const PasswordEncryptor = require('../Common/PasswordEncryptor.js');
 
 class UsersQueryHandler {
   constructor(sql, params, callback, method) {
@@ -17,9 +17,10 @@ class UsersQueryHandler {
   }
 
   handleLogin() {
-    const payload = { mobile_phone: this.params[0], password: this.params[1] };
     //Genera token jwt
-    const token = jwt.sign(payload, 'secreto');
+    const payload = { mobile_phone: this.params[0], password: this.params[1] };
+    let token = new JwtTokenGenerator('secret',payload);
+    token = token.generate();
 
     //Decodifica campos
     this.params[0] = decodeURIComponent(this.params[0]);
@@ -40,7 +41,8 @@ class UsersQueryHandler {
     }
 
     //Encripta con md5
-    this.params[1] = crypto.createHash('md5').update(this.params[1]).digest('hex');
+    const passwordEncryptor = new PasswordEncryptor(this.params[1]);
+    this.params[1] = passwordEncryptor.encrypt();
 
     connection.query(this.sql, this.params, (error, data) => {
       if (error) {
