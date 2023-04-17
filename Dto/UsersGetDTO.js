@@ -30,4 +30,4 @@ class UsersGetDTO {
     }
   }
   
-  module.exports = UsersGetDTO;
+module.exports = UsersGetDTO;

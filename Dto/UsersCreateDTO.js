@@ -22,4 +22,4 @@ class UsersCreateDTO {
     }
   }
   
-  module.exports = UsersCreateDTO;
+module.exports = UsersCreateDTO;

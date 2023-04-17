@@ -22,4 +22,4 @@ class UsersDeleteDTO {
     }
   }
   
-  module.exports = UsersDeleteDTO;
+module.exports = UsersDeleteDTO;

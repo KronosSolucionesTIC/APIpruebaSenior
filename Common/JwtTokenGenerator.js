@@ -11,4 +11,4 @@ class JwtTokenGenerator {
     }
   }
 
-  module.exports = JwtTokenGenerator
+module.exports = JwtTokenGenerator
