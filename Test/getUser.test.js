@@ -36,7 +36,7 @@ describe("getUser", () => {
       expect(response.body).toBeDefined();
       const body = JSON.parse(response.body);
       expect(body.success).toBe(false);
-      expect(body.data).toBe('Invalid id_user');
+      expect(body.data).toBe('\"id_user\" must be a number');
     };
 
     lambda.getUser(event, context, callback);

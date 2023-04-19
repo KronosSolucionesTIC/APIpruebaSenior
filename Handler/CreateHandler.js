@@ -2,7 +2,7 @@ const connection = require('../connection.js');
 const LambdaResponse = require('../Common/LambdaResponse.js');
 const PasswordEncryptor = require('../Common/PasswordEncryptor.js');
 const UsersCreateDTO = require('../Dto/UsersCreateDTO.js');
-const FieldValidatorUpdate = require('../Validation/FieldValidatorUpdate.js');
+const FieldValidatorCreate = require('../Validation/FieldValidatorCreate.js');
 
 class CreateHandler {
     constructor(sql, params, method, callback) {
@@ -21,7 +21,7 @@ class CreateHandler {
     }
   
     validateFields() {
-      const validator = new FieldValidatorUpdate(this.params, this.method, this.callback);
+      const validator = new FieldValidatorCreate(this.params, this.method, this.callback);
       validator.validate();
     }
 

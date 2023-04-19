@@ -1,4 +1,4 @@
-const functions = require('../Functions/functions.js');
+const Joi = require('joi');
 const LambdaResponse = require('../Common/LambdaResponse.js');
 
 class FieldValidatorUpdate {
@@ -9,18 +9,31 @@ class FieldValidatorUpdate {
     }
     
     validate() {
-      const validations = [
-        { func: functions.validateType, args: ['varchar', this.params[0]] },
-        { func: functions.validateType, args: ['varchar', this.params[1]] },
-        { func: functions.validateType, args: ['varchar', this.params[3]] },
-        { func: functions.validateType, args: ['varchar', this.params[4]] },
-        { func: functions.validateLength, args: [120, this.params[5]] }     
-      ];
-      const isValid = validations.every(validation => validation.func(...validation.args));
-      if (!isValid) {
+      const schema = Joi.object({
+        first_name: Joi.string().required(),
+        last_name: Joi.string().required(),
+        date_birth: Joi.string().required(),
+        mobile_phone: Joi.string().required(),
+        email: Joi.string().required(),
+        password: Joi.string().required(),
+        address: Joi.string().required(),
+        id_user: Joi.number().required()
+      });
+
+      const { error } = schema.validate({ 
+        first_name: this.params[0], 
+        last_name: this.params[1],
+        date_birth: this.params[2],
+        mobile_phone: this.params[3],
+        email: this.params[4],
+        password: this.params[5],
+        address: this.params[6],
+        id_user: this.params[7]
+      });
+      if (error) {
         const response = new LambdaResponse(400, {
           success: false,
-          data: 'The parameters do not meet the required data type or length'
+          data: error["message"]
         }, this.method);
         return this.callback(null, response);
       }
